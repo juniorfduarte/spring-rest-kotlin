@@ -19,8 +19,8 @@ class PersonService {
         gender = PersonGender.MALE
     )
 
-    fun findById(id: String?) : Person {
-        if (id.isNullOrBlank())
+    fun findById(id: Long?) : Person {
+        if (id == null)
             throw UnsupportedMathOperationException("Please, insert the person ID.")
 
         logger.info("m=findById; msg=Searching person with id=${id}")
