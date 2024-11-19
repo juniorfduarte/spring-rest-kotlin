@@ -1,35 +1,63 @@
 package br.com.juniorfduarte.spring_rest_kotlin.controller
 
+import br.com.juniorfduarte.spring_rest_kotlin.service.MathService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.concurrent.atomic.AtomicLong
 
 @RestController
-class CalculatorController {
+class CalculatorController(
 
-    val counter: AtomicLong = AtomicLong()
+    @Autowired
+    private val mathService: MathService
+
+) {
 
     @GetMapping("/sum")
     fun sum(
         @RequestParam(value = "numberOne") numberOne: String?,
         @RequestParam(value = "numberTwo") numberTwo: String?
     ): Double? {
-
-        val one = convertToDouble(numberOne)
-        val two = convertToDouble(numberTwo)
-        return one + two
+        return mathService.sum(numberOne, numberTwo)
     }
 
-    private fun convertToDouble(strNumber: String?): Double {
-        if (strNumber.isNullOrBlank()) return 0.0
-
-        val number = strNumber.replace(",".toRegex(), ".")
-
-        return if (isNumeric(number)) number.toDouble() else 0.0
+    @GetMapping("/minus")
+    fun minus(
+        @RequestParam(value = "numberOne") numberOne: String?,
+        @RequestParam(value = "numberTwo") numberTwo: String?
+    ): Double? {
+        return mathService.minus(numberOne, numberTwo)
     }
 
-    private fun isNumeric(strNumber: String): Boolean {
-        return strNumber.matches("""[-+]?[0-9]*\.?[0-9]""".toRegex())
+    @GetMapping("/multiply")
+    fun multiply(
+        @RequestParam(value = "numberOne") numberOne: String?,
+        @RequestParam(value = "numberTwo") numberTwo: String?
+    ): Double? {
+        return mathService.multiply(numberOne, numberTwo)
+    }
+
+    @GetMapping("/division")
+    fun division(
+        @RequestParam(value = "numberOne") numberOne: String?,
+        @RequestParam(value = "numberTwo") numberTwo: String?
+    ): Double? {
+        return mathService.division(numberOne, numberTwo)
+    }
+
+    @GetMapping("/average")
+    fun average(
+        @RequestParam(value = "numberOne") numberOne: String?,
+        @RequestParam(value = "numberTwo") numberTwo: String?
+    ): Double? {
+        return mathService.average(numberOne, numberTwo)
+    }
+
+    @GetMapping("/square_root")
+    fun sqrRoot(
+        @RequestParam(value = "numberOne") numberOne: String?
+    ): Double? {
+        return mathService.squareRoot(numberOne)
     }
 }
